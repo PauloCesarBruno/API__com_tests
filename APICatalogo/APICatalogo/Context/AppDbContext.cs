@@ -1,5 +1,6 @@
 ﻿using APICatalogo.Models;
 using Microsoft.EntityFrameworkCore;
+// CONTEXTO
 
 namespace APICatalogo.Context
 {
