@@ -13,6 +13,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
 
 // Configurando a string de conexão que esta no appsettings.json
 string SqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -28,13 +29,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(x => x.AllowAnyHeader().AllowAnyHeader().AllowAnyOrigin());
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
-// O Cors é geralmente usando quando uma pagina possui um front-end ...
-//app.UseCors(x => x.AllowAnyHeader().AllowAnyHeader().AllowAnyOrigin());
 
 app.Run();
