@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace APICatalogo.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class ProdutosController  : ControllerBase
     {
         //Injeção de dependência:
@@ -15,6 +15,19 @@ namespace APICatalogo.Controllers
         public ProdutosController(AppDbContext context)
         {
             _context = context;
+        }
+
+        //Exemplo de varias rotas para um mesmo endpoint
+        [HttpGet("Primeiro")]          
+        [HttpGet("/Primeiro")] // A barra invertida ignora o -> [Route("api/[controller]")]
+        public ActionResult<Produto> Get2()
+        {
+            var produto = _context.Produtos.AsNoTracking().FirstOrDefault();
+            if (produto is null)
+            {
+                return NotFound("Produto não encontrado !");
+            }
+            return produto;
         }
 
         [HttpGet]
@@ -29,9 +42,9 @@ namespace APICatalogo.Controllers
         }
 
         // Rota Nomeada para obter Status 201 no Post.
-        [HttpGet("{id:int}", Name="ObterProduto")]
+        [HttpGet("{id:int:min(1)}", Name="ObterProduto")] // Restrição de rota ->  [HttpGet("{id:int:min(1)}"
         public ActionResult<Produto> Get(int id)
-        {
+        {  
             var produtos =_context.Produtos.AsNoTracking().ToList().FirstOrDefault (p=> p.ProdutoId == id);
             if (produtos is null)
             {
