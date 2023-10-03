@@ -1,5 +1,6 @@
 ﻿using APICatalogo.Context;
 using APICatalogo.Models;
+using APICatalogo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace APICatalogo.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CategoriasController : Controller
     {
         private readonly AppDbContext _context;
@@ -17,27 +18,29 @@ namespace APICatalogo.Controllers
             _context = context;
         }
 
-        //[HttpGet("produtos")]
-        //public ActionResult <IEnumerable<Categoria>> GetCategoriasProdutos()
+        //EXEMPLO DE USO DE INTERFACE DE SERVICO (SERVICES) PARA SAUDAÃO - FINS DIDÁTICOS
+        //[HttpGet("saudacao/{nome}")]
+        //public ActionResult<string> GetSaudacao([FromServices] IMeuServico meuServico, string nome)
         //{
-        //    return _context.Categorias.Include(p => p.Produtos).Where(c=> c.CategoriaId <=5).AsNoTracking().ToList();
+        //    return meuServico.Saudacao(nome);
         //}
              
         [HttpGet]
-        public ActionResult <IEnumerable<Categoria>> Get()
+        public async Task <ActionResult <IEnumerable<Categoria>>> Get()
         {
-            var categorias = _context.Categorias.AsNoTracking().ToList();
+            var categorias = await  _context.Categorias.AsNoTracking().ToListAsync();
             if (categorias is null)
             {
                 return NotFound("Categorias não encontradas !");
             }
-            return categorias;
+            return Ok(categorias);
         }
 
         [HttpGet("{id:int}", Name="ObterCategoria")]
-        public ActionResult<Categoria> Get(int id)
+        public async Task <ActionResult<Categoria>> Get(int id)
         {
-            var categoria = _context.Categorias.AsNoTracking().ToList().FirstOrDefault(c=> c.CategoriaId== id);
+            var categoria = await  _context.Categorias.AsNoTracking()
+                .FirstOrDefaultAsync(c=> c.CategoriaId== id);
             if (categoria is null)
             {
                 return NotFound("A categoria de código " + id + " não foi encontrada");

@@ -15,51 +15,44 @@ namespace APICatalogo.Controllers
         public ProdutosController(AppDbContext context)
         {
             _context = context;
-        }
-
-        //Exemplo de varias rotas para um mesmo endpoint
-        [HttpGet("Primeiro")]          
-        [HttpGet("/Primeiro")] // A barra invertida ignora o -> [Route("api/[controller]")]
-        public ActionResult<Produto> Get2()
-        {
-            var produto = _context.Produtos.AsNoTracking().FirstOrDefault();
-            if (produto is null)
-            {
-                return NotFound("Produto não encontrado !");
-            }
-            return produto;
-        }
+        }             
 
         [HttpGet]
-        public ActionResult<IEnumerable<Produto>> Get()
+        public async Task <ActionResult<IEnumerable<Produto>>> Get()
         {
-            var produtos = _context.Produtos.AsNoTracking().ToList();
+            var produtos = await _context.Produtos.AsNoTracking().ToListAsync();
             if (produtos is null)
             {
                 return NotFound("Produtos não encontrados !");
             }
-            return produtos;
+            return Ok(produtos);
         }
 
         // Rota Nomeada para obter Status 201 no Post.
         [HttpGet("{id:int:min(1)}", Name="ObterProduto")] // Restrição de rota ->  [HttpGet("{id:int:min(1)}"
-        public ActionResult<Produto> Get(int id)
+        public async Task <ActionResult<Produto>> Get(int id)
         {  
-            var produtos =_context.Produtos.AsNoTracking().ToList().FirstOrDefault (p=> p.ProdutoId == id);
+            var produtos = await _context.Produtos.AsNoTracking()
+                .FirstOrDefaultAsync (p=> p.ProdutoId == id);
             if (produtos is null)
             {
                 return NotFound("O Produto de Código " + id + " não foi encontrado !");
             }
-            return produtos;
+            return Ok(produtos);
         }
 
         [HttpPost]
-        public ActionResult Post(Produto produto)
+        public ActionResult Post([FromBody]Produto produto)
         {
             if (produto is null)
             {
                 return BadRequest();
             }
+
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             _context.Produtos.Add(produto);
             _context.SaveChanges();

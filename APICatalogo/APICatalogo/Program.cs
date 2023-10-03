@@ -1,4 +1,5 @@
 using APICatalogo.Context;
+using APICatalogo.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -19,6 +20,10 @@ builder.Services.AddCors();
 string SqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(SqlConnection));
+
+
+builder.Services.AddTransient<IMeuServico, MeuServico>();
+
 
 var app = builder.Build();
 
