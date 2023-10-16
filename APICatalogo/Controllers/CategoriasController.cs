@@ -43,7 +43,7 @@ namespace APICatalogo.Controllers
         [HttpGet]
         public async Task <ActionResult <IEnumerable<Categoria>>> Get()
         {
-           // _logger.LogInformation("======================GET api/categorias =======================");
+           //_logger.LogInformation("======================GET api/categorias =======================");
 
             var categorias = await  _context.Categorias.AsNoTracking().ToListAsync();
             if (categorias is null)
@@ -56,13 +56,13 @@ namespace APICatalogo.Controllers
         [HttpGet("{id:int}", Name="ObterCategoria")]
         public async Task <ActionResult<Categoria>> Get(int id)
         {
-           // _logger.LogInformation($"======================GET api/categorias/id = {id} =======================");
+           //_logger.LogInformation($"======================GET api/categorias/id = {id} =======================");
 
             var categoria = await  _context.Categorias.AsNoTracking()
                 .FirstOrDefaultAsync(c=> c.CategoriaId== id);
             if (categoria is null)
             {
-           // _logger.LogInformation($"======================GET api/categorias/id = {id} =======================");
+           //_logger.LogInformation($"======================GET api/categorias/id = {id} =======================");
 
                 return NotFound("A categoria de código " + id + " não foi encontrada");
             }
