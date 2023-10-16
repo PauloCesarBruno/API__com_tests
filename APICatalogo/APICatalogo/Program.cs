@@ -1,6 +1,9 @@
 using APICatalogo.Context;
+using APICatalogo.Filter;
+using APICatalogo.Logging;
 using APICatalogo.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,10 +19,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
+
 // Configurando a string de conexão que esta no appsettings.json
 string SqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(SqlConnection));
+
+
+builder.Services.AddScoped<ApiLoggingFilter>();
+
+builder.Logging.AddProvider(new CustomLoggerProvider (new CustomLoggerProviderConfiguration
+{
+    LogLevel = LogLevel.Information
+}));
 
 
 builder.Services.AddTransient<IMeuServico, MeuServico>();
