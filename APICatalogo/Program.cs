@@ -1,6 +1,7 @@
 using APICatalogo.Context;
 using APICatalogo.Filter;
 using APICatalogo.Logging;
+using APICatalogo.Repository;
 using APICatalogo.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -24,6 +25,7 @@ string SqlConnection = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(SqlConnection));
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<ApiLoggingFilter>();
 
