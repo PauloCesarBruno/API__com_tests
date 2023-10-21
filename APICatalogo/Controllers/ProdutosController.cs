@@ -1,79 +1,98 @@
-﻿using APICatalogo.Filter;
+﻿using APICatalogo.DTOs;
+using APICatalogo.Filter;
 using APICatalogo.Models;
 using APICatalogo.Repository;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APICatalogo.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProdutosController  : ControllerBase
+public class ProdutosController : ControllerBase
 {
     //Injeção de dependência:
     private readonly IUnitOfWork _uof;
     private readonly ILogger _logger;
+    private readonly IMapper _mapper;
 
-    public ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> logger)
+    public ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> logger, IMapper mapper)
     {
         _uof = uof;
         _logger = logger;
+        _mapper = mapper;
     }
 
     [HttpGet("menorpreco")]
-    public ActionResult<IEnumerable<Produto>> GetProdutosPreco()
-    {
-        return _uof.ProdutoRepository.GetProdutosPorPreco().ToList();
+    public ActionResult<IEnumerable<ProdutoDTO>> GetProdutosPreco()
+    {                 
+        var produtos = _uof.ProdutoRepository.GetProdutosPorPreco().ToList();
+
+        var produtoDTO = _mapper.Map<List<ProdutoDTO>>(produtos);
+
+        return produtoDTO;
     }
 
     [HttpGet]
     [ServiceFilter(typeof(ApiLoggingFilter))]
-    public ActionResult<IEnumerable<Produto>> Get()
-    {
-        return _uof.ProdutoRepository.Get().ToList();
+    public ActionResult<IEnumerable<ProdutoDTO>> Get()
+    {            
+        var produtos = _uof.ProdutoRepository.Get().ToList();
+
+        var produtoDTO = _mapper.Map<List<ProdutoDTO>>(produtos);
+
+        return produtoDTO;
     }
 
     // Rota Nomeada para obter Status 201 no Post.
-    [HttpGet("{id:int:min(1)}", Name="ObterProduto")] // Restrição de rota ->  [HttpGet("{id:int:min(1)}"
-    public ActionResult<Produto> Get(int id)
-    {  
+    [HttpGet("{id:int:min(1)}", Name = "ObterProduto")] // Restrição de rota ->  [HttpGet("{id:int:min(1)}"
+    public ActionResult<ProdutoDTO> Get(int id)
+    {
         var produto = _uof.ProdutoRepository.GetById(p => p.ProdutoId == id);
         if (produto is null)
         {
             return NotFound("O Produto de Código " + id + " não foi encontrado !");
         }
-        return produto;
+        var produtoDTO = _mapper.Map<ProdutoDTO>(produto);
+
+        return produtoDTO;
     }
 
     [HttpPost]
-    public ActionResult Post([FromBody]Produto produto)
+    public ActionResult Post([FromBody] ProdutoDTO produtoDto)
     {
+        var produto = _mapper.Map<Produto>(produtoDto);
+
         _uof.ProdutoRepository.Add(produto);
         _uof.Commit();
+
+        var produtoDTO = _mapper.Map<ProdutoDTO>(produto);
 
         /* Este recurso ao contrario do Return Ok(),
         que retorna um codigo 200 retornará um 201
         dizendo que o produto foi CRIADO*/
         return new CreatedAtRouteResult("ObterProduto",
-               new { id = produto.ProdutoId}, produto);
+               new { id = produto.ProdutoId }, produtoDTO);
     }
 
     [HttpPut("{id:int}")]
-    public ActionResult Put (int id, [FromBody] Produto produto)
+    public ActionResult Put(int id, [FromBody] ProdutoDTO produtoDto)
     {
-        if(id != produto.ProdutoId)
+        if (id != produtoDto.ProdutoId)
         {
             return BadRequest();
         }
 
+        var produto = _mapper.Map<Produto>(produtoDto);
 
         _uof.ProdutoRepository.Update(produto);
         _uof.Commit();
 
-        return Ok(produto);
+        return Ok();
     }
 
     [HttpDelete("{id:int}")]
-    public ActionResult Delete(int id)
+    public ActionResult<ProdutoDTO> Delete(int id)
     {
         var produto = _uof.ProdutoRepository.GetById(p => p.ProdutoId == id);
 
@@ -83,6 +102,9 @@ public class ProdutosController  : ControllerBase
         }
         _uof.ProdutoRepository.Delete(produto);
         _uof.Commit();
-        return Ok(produto);
+
+        var produtoDto = _mapper.Map<ProdutoDTO>(produto);
+
+        return produtoDto;
     }
 }

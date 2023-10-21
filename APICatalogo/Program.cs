@@ -1,8 +1,10 @@
 using APICatalogo.Context;
+using APICatalogo.DTOs.Mappings;
 using APICatalogo.Filter;
 using APICatalogo.Logging;
 using APICatalogo.Repository;
 using APICatalogo.Services;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -14,11 +16,16 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions
            .ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
+// Configuração do AutoMapper:
+var mappingConfig = new MapperConfiguration(mc =>
+    mc.AddProfile(new MappingProfile()));
+
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 // Configurando a string de conexão que esta no appsettings.json
 string SqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
