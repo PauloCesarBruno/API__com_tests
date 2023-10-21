@@ -15,7 +15,7 @@ public class PrimeiraLetraMaiusculaAttribute : ValidationAttribute  // Herda sem
         var primeiraletra = value.ToString()[0].ToString();
         if (primeiraletra != primeiraletra.ToUpper())
         {
-            return new ValidationResult("A primeira letra do nome do produto deve ser maiuscula.");
+            return new ValidationResult("A primeira letra deve ser maiuscula.");
         }
 
         return ValidationResult.Success;
