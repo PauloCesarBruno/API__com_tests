@@ -18,11 +18,9 @@ namespace APICatalogo.Models
         public decimal Preco { get; set; }
        
         public string ImagemUrl { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório!")]
+       
         public float Estoque { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório!")]
+       
         public DateTime DataCadastro { get; set; }
 
         // Refinamento de que Categoria poderá receber várioas produtos:

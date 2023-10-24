@@ -27,6 +27,12 @@ namespace APICatalogo.DTOs
         [StringLength(100, ErrorMessage = "A ImagemURL deve ter entre 15 e 100 caracteres", MinimumLength = 15)]
         public string ImagemUrl { get; set; }
 
+        //[Required(ErrorMessage = "Campo Obrigatório!")]  --> ESTÁ COMENTADO PARA NÃO TRAZER NO DTO MESMO 
+        //public float Estoque { get; set; }
+
+        //[Required(ErrorMessage = "Campo Obrigatório!")]  --> ESTÁ COMENTADO PARA NÃO TRAZER NO DTO MESMO 
+        //public DateTime DataCadastro { get; set; }
+
         // Refinamento de que Categoria poderá receber várioas produtos:
         // Propriedades de navegação  
         public int CategoriaId { get; set; }

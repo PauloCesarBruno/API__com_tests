@@ -1,9 +1,11 @@
 ﻿using APICatalogo.DTOs;
 using APICatalogo.Models;
+using APICatalogo.Pagination;
 using APICatalogo.Repository;
 using AutoMapper;
 //using APICatalogo.Services;  // Usado para o exemplo de Saudação no [FromServices]
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace APICatalogo.Controllers;
 
@@ -43,9 +45,21 @@ public class CategoriasController : Controller
     //}
 
     [HttpGet("Produtos")]
-    public ActionResult <IEnumerable<CategoriaDTO>> GetCategoriasProdutos()
+    public ActionResult <IEnumerable<CategoriaDTO>> GetCategoriasProdutos([FromQuery] CategoriasParameters categoriasParameters)
     {
-        var categorias = _context.CategoriaRepository.GetCategoriasProdutos().ToList();
+        var categorias = _context.CategoriaRepository.GetCategorias(categoriasParameters);
+
+        var metadata = new
+        {
+            categorias.TotalCount,
+            categorias.PageSize,
+            categorias.CurrentPage,
+            categorias.TotalPages,
+            categorias.HasNext,
+            categorias.HasPrevious,
+        };
+
+        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
         var categoriaDTO = _mapper.Map<List<CategoriaDTO>>(categorias);
 
@@ -53,11 +67,23 @@ public class CategoriasController : Controller
     }
          
     [HttpGet]
-    public ActionResult <IEnumerable<CategoriaDTO>> Get()
+    public ActionResult <IEnumerable<CategoriaDTO>> Get([FromQuery] CategoriasParameters categoriasParameters)
     {
         //_logger.LogInformation("======================GET api/categorias =======================");
 
-        var categorias = _context.CategoriaRepository.Get().ToList();
+        var categorias = _context.CategoriaRepository.GetCategorias(categoriasParameters);
+
+        var metadata = new
+        {
+            categorias.TotalCount,
+            categorias.PageSize,
+            categorias.CurrentPage,
+            categorias.TotalPages,
+            categorias.HasNext,
+            categorias.HasPrevious,
+        };
+
+        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
         var categoriaDTO = _mapper.Map<List<CategoriaDTO>>(categorias);
 
