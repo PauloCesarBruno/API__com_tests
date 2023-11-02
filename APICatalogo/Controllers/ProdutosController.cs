@@ -13,7 +13,7 @@ namespace APICatalogo.Controllers;
 [ApiController]
 public class ProdutosController : ControllerBase
 {
-    //Injeção de dependência...//
+    //Injeção de dependência:
     private readonly IUnitOfWork _uof;
     private readonly ILogger _logger;
     private readonly IMapper _mapper;
