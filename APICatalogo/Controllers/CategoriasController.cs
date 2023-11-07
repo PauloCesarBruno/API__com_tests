@@ -3,7 +3,7 @@ using APICatalogo.Models;
 using APICatalogo.Pagination;
 using APICatalogo.Repository;
 using AutoMapper;
-//using APICatalogo.Services;  // Usado para o exemplo de Saudação no [FromServices]
+//using APICatalogo.Services;  // Usado para o exemplo de Saudação no [FromServices].
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
