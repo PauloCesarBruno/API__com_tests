@@ -22,7 +22,7 @@ public class CategoriasController : Controller
         ILogger<CategoriasController> logger, IMapper mapper)
     {
         _context = context;
-        // _configuration = configuration;
+     // _configuration = configuration;
         _logger = logger;
         _mapper = mapper;
     }
