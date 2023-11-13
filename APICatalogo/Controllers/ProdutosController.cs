@@ -49,7 +49,7 @@ public class ProdutosController : ControllerBase
         return produtosDto;
     }
 
-    // Sem Paginação:
+    // (GetProdutosPorPreco) Sem Paginação:
     //[HttpGet("menorpreco")]
     //public async Task<ActionResult<IEnumerable<ProdutoDTO>>> GetProdutosPrecos()
     //{

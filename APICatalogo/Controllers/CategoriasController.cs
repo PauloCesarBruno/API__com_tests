@@ -69,7 +69,7 @@ public class CategoriasController : Controller
         return categoriasDto;
     }
 
-    // Sem Paginação:
+    // (GetCategoriasProdutos) Sem Paginação:
     //[HttpGet("produtos")]
     //public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriasProdutos()
     //{

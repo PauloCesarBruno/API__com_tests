@@ -27,7 +27,7 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
 
     // ========================================================================================================
 
-    // Sem Paginação:
+    // (GetProdutosPorPreco) Sem Paginação:
     //public async Task<IEnumerable<Produto>> GetProdutosPorPreco()
     //{
     //    return await Get().OrderBy(c => c.Preco).ToListAsync();

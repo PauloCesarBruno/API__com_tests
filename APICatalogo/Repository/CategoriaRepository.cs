@@ -27,7 +27,7 @@ public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
 
     // ========================================================================================================
 
-    // Sem Paginação:
+    // (GetCategoriasProdutos) Sem Paginação:
     //public async Task<IEnumerable<Categoria>> GetCategoriasProdutos()
     //{
     //    return await Get().Include(x => x.Produtos).ToListAsync();

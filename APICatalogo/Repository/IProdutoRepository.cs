@@ -11,6 +11,6 @@ public interface IProdutoRepository : IRepository<Produto>
 
     //===========================================================================================--
 
-    // Sem Paginação:
+    // (GetProdutosPorPreco) Sem Paginação:
     // Task<IEnumerable<Produto>> GetProdutosPorPreco();
 }

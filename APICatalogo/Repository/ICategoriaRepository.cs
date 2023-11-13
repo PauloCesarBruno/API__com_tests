@@ -12,6 +12,6 @@ public interface ICategoriaRepository : IRepository<Categoria>
 
     //===========================================================================================--
 
-    // Sem Paginação:
+    // (GetCategoriasProdutos) Sem Paginação:
     // Task<IEnumerable<Categoria>> GetCategoriasProdutos();
 }
