@@ -1,5 +1,4 @@
 ﻿using APICatalogo.Context;
-using APICatalogo.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

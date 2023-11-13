@@ -1,7 +1,6 @@
 ﻿using APICatalogo.Context;
 using APICatalogo.Models;
 using APICatalogo.Pagination;
-using Microsoft.EntityFrameworkCore;
 
 namespace APICatalogo.Repository;
 
