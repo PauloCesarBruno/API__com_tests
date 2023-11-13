@@ -7,5 +7,10 @@ public interface IProdutoRepository : IRepository<Produto>
 {
     //Contrato para paginação:
     Task<PagedList<Produto>> GetProdutos(ProdutosParameters produtosParameters);
-    Task<IEnumerable<Produto>> GetProdutosPorPreco();
+    Task<PagedList<Produto>> GetProdutosPorPreco(ProdutosParameters produtosParameters);
+
+    //===========================================================================================--
+
+    // Sem Paginação:
+    // Task<IEnumerable<Produto>> GetProdutosPorPreco();
 }

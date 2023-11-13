@@ -14,15 +14,15 @@ namespace APICatalogo.Controllers;
 public class CategoriasController : Controller
 {
     private readonly IUnitOfWork _context;
-   //private readonly IConfiguration _configuration;
+    //private readonly IConfiguration _configuration;
     private readonly ILogger _logger;
     private readonly IMapper _mapper;
 
-    public CategoriasController(IUnitOfWork context, /*IConfiguration configuration,*/ 
+    public CategoriasController(IUnitOfWork context, /*IConfiguration configuration,*/
         ILogger<CategoriasController> logger, IMapper mapper)
     {
         _context = context;
-     // _configuration = configuration;
+        // _configuration = configuration;
         _logger = logger;
         _mapper = mapper;
     }
@@ -45,14 +45,40 @@ public class CategoriasController : Controller
     //}
 
     [HttpGet("produtos")]
-    public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriasProdutos()
+    public async Task<ActionResult<IList<CategoriaDTO>>>
+    GetCategoriasProdutos([FromQuery] CategoriasParameters categoriaParameters)
     {
         var categorias = await _context.CategoriaRepository
-                        .GetCategoriasProdutos();
+                        .GetCategoriasProdutos(categoriaParameters);
+
+
+        var metadata = new
+        {
+            categorias.TotalCount,
+            categorias.PageSize,
+            categorias.CurrentPage,
+            categorias.TotalPages,
+            categorias.HasNext,
+            categorias.HasPrevious
+        };
+
+        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
 
         var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
         return categoriasDto;
     }
+
+    // Sem Paginação:
+    //[HttpGet("produtos")]
+    //public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriasProdutos()
+    //{
+    //    var categorias = await _context.CategoriaRepository
+    //                    .GetCategoriasProdutos();
+
+    //    var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
+    //    return categoriasDto;
+    //}
 
 
     [HttpGet]
@@ -78,8 +104,8 @@ public class CategoriasController : Controller
         return categoriasDto;
     }
 
-    [HttpGet("{id}", Name="ObterCategoria")]
-    public async Task <ActionResult<CategoriaDTO>> Get(int id)
+    [HttpGet("{id}", Name = "ObterCategoria")]
+    public async Task<ActionResult<CategoriaDTO>> Get(int id)
     {
         //_logger.LogInformation($"======================GET api/categorias/id = {id} =======================");
 
@@ -88,7 +114,7 @@ public class CategoriasController : Controller
 
         if (categoria == null)
         {
-       //_logger.LogInformation($"======================GET api/categorias/id = {id} =======================");
+            //_logger.LogInformation($"======================GET api/categorias/id = {id} =======================");
 
             return NotFound("A categoria de código " + id + " não foi encontrada");
         }
@@ -99,12 +125,12 @@ public class CategoriasController : Controller
     }
 
     [HttpPost]
-    public async Task <ActionResult> Post ([FromBody]CategoriaDTO categoriaDto)
+    public async Task<ActionResult> Post([FromBody] CategoriaDTO categoriaDto)
     {
         var categoria = _mapper.Map<Categoria>(categoriaDto);
 
         _context.CategoriaRepository.Add(categoria);
-         await _context.Commit();
+        await _context.Commit();
 
         var categoriaDTO = _mapper.Map<CategoriaDTO>(categoria);
 
@@ -113,7 +139,7 @@ public class CategoriasController : Controller
     }
 
     [HttpPut("{id:int}")]
-    public async Task <ActionResult> Put (int id, [FromBody] CategoriaDTO categoriaDto)
+    public async Task<ActionResult> Put(int id, [FromBody] CategoriaDTO categoriaDto)
     {
         if (id != categoriaDto.CategoriaId)
         {
@@ -129,12 +155,12 @@ public class CategoriasController : Controller
     }
 
     [HttpDelete("{id}")]
-    public async Task <ActionResult <CategoriaDTO>> Delete(int id)
+    public async Task<ActionResult<CategoriaDTO>> Delete(int id)
     {
         var categoria = await _context.CategoriaRepository
                         .GetById(c => c.CategoriaId == id);
 
-        if ( categoria == null)
+        if (categoria == null)
         {
             return NotFound("A Categoria de código " + id + " nõo foi encontrada!");
         }

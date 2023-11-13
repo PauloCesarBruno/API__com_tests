@@ -17,9 +17,20 @@ public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
                            categoriaParameters.PageNumber,
                            categoriaParameters.PageSize);
     }
-    public async Task<IEnumerable<Categoria>> GetCategoriasProdutos()
+
+    public async Task<PagedList<Categoria>> GetCategoriasProdutos(CategoriasParameters categoriaParameters)
     {
-        return await Get().Include(x => x.Produtos).ToListAsync();
+        return await PagedList<Categoria>.ToPagedList(Get().Include(x => x.Produtos).OrderBy(oc => oc.Nome),
+                          categoriaParameters.PageNumber,
+                          categoriaParameters.PageSize);
     }
+
+    // ========================================================================================================
+
+    // Sem Paginação:
+    //public async Task<IEnumerable<Categoria>> GetCategoriasProdutos()
+    //{
+    //    return await Get().Include(x => x.Produtos).ToListAsync();
+    //}
 }
 

@@ -7,5 +7,11 @@ public interface ICategoriaRepository : IRepository<Categoria>
 {
     //Contrato para paginação:
     Task<PagedList<Categoria>> GetCategorias(CategoriasParameters categoriaParameters);
-    Task<IEnumerable<Categoria>> GetCategoriasProdutos();
+
+    Task<PagedList<Categoria>> GetCategoriasProdutos(CategoriasParameters categoriaParameters);
+
+    //===========================================================================================--
+
+    // Sem Paginação:
+    // Task<IEnumerable<Categoria>> GetCategoriasProdutos();
 }

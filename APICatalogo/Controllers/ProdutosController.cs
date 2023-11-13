@@ -23,15 +23,41 @@ public class ProdutosController : ControllerBase
         _logger = logger;
         _mapper = mapper;
     }
-   
-    [HttpGet("menorpreco")]
-    public async Task<ActionResult<IEnumerable<ProdutoDTO>>> GetProdutosPrecos()
-    {
-        var produtos = await _uof.ProdutoRepository.GetProdutosPorPreco();
-        var produtosDto = _mapper.Map<List<ProdutoDTO>>(produtos);
 
+
+    [HttpGet("menorpreco")]
+    public async Task<ActionResult<IList<ProdutoDTO>>>
+    GetProdutosPorPreco([FromQuery] ProdutosParameters produtosParameters)
+    {
+        var produtos = await _uof.ProdutoRepository.GetProdutosPorPreco(produtosParameters);
+
+
+        var metadata = new
+        {
+            produtos.TotalCount,
+            produtos.PageSize,
+            produtos.CurrentPage,
+            produtos.TotalPages,
+            produtos.HasNext,
+            produtos.HasPrevious
+        };
+
+        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+
+        var produtosDto = _mapper.Map<List<ProdutoDTO>>(produtos);
         return produtosDto;
     }
+
+    // Sem Paginação:
+    //[HttpGet("menorpreco")]
+    //public async Task<ActionResult<IEnumerable<ProdutoDTO>>> GetProdutosPrecos()
+    //{
+    //    var produtos = await _uof.ProdutoRepository.GetProdutosPorPreco();
+    //    var produtosDto = _mapper.Map<List<ProdutoDTO>>(produtos);
+
+    //    return produtosDto;
+    //}
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProdutoDTO>>>

@@ -17,8 +17,19 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
             produtosParameters.PageNumber, produtosParameters.PageSize);
     }
 
-    public async Task<IEnumerable<Produto>> GetProdutosPorPreco()
+    public async Task<PagedList<Produto>> GetProdutosPorPreco(ProdutosParameters produtosParameters)
     {
-        return await Get().OrderBy(c => c.Preco).ToListAsync();
+        return await PagedList<Produto>.ToPagedList(Get().OrderBy(c => c.Preco),
+                          produtosParameters.PageNumber,
+                          produtosParameters.PageSize);
     }
+
+
+    // ========================================================================================================
+
+    // Sem Paginação:
+    //public async Task<IEnumerable<Produto>> GetProdutosPorPreco()
+    //{
+    //    return await Get().OrderBy(c => c.Preco).ToListAsync();
+    //}
 }
