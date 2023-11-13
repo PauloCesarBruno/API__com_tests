@@ -5,7 +5,6 @@ using APICatalogo.Repository;
 using AutoMapper;
 //using APICatalogo.Services;  // Usado para o exemplo de Saudação no [FromServices].
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace APICatalogo.Controllers;
