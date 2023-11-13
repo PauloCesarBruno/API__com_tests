@@ -1,4 +1,5 @@
 ﻿using APICatalogo.Context;
+using APICatalogo.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -13,9 +14,19 @@ public class Repository<T> : IRepository<T> where T : class // Classe Genérica
         _context = context;   
     }
 
+    public IQueryable<T> Get()
+    {
+        return _context.Set<T>().AsNoTracking();
+    }
+
+    public async Task<T> GetById(Expression<Func<T, bool>> predicate)
+    {
+        return await _context.Set<T>().AsNoTracking().SingleOrDefaultAsync(predicate);
+    }
+
     public void Add(T entity)
     {
-       _context.Set<T>().Add(entity);
+        _context.Set<T>().Add(entity);
     }
 
     public void Update(T entity)
@@ -28,14 +39,6 @@ public class Repository<T> : IRepository<T> where T : class // Classe Genérica
     {
         _context.Set<T>().Remove(entity);
     }
-
-    public IQueryable<T> Get()
-    {
-        return _context.Set<T>().AsNoTracking();
-    }
-
-    public T GetById(Expression<Func<T, bool>> predicate)
-    {
-        return _context.Set<T>().SingleOrDefault(predicate);
-    }           
+   
 }
+

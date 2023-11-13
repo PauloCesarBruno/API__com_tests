@@ -6,8 +6,6 @@ namespace APICatalogo.Repository;
 public interface IProdutoRepository : IRepository<Produto>
 {
     //Contrato para paginação:
-    PagedList<Produto> GetProdutos(ProdutosParameters produtosParameters);
-
-
-    IEnumerable<Produto> GetProdutosPorPreco();
+    Task<PagedList<Produto>> GetProdutos(ProdutosParameters produtosParameters);
+    Task<IEnumerable<Produto>> GetProdutosPorPreco();
 }
