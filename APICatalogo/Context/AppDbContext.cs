@@ -1,11 +1,14 @@
 ﻿using APICatalogo.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 // CONTEXTO//
 
 namespace APICatalogo.Context
 {
-    public class AppDbContext : DbContext
-    {
+    // A herança agora é de "IdentityDbContext" e é preciso instalar
+    // o pacote "Microsoft.AspNetCore.Identity.EntityFrameworkCore".
+    public class AppDbContext : IdentityDbContext
+    {           
         public AppDbContext(DbContextOptions<AppDbContext> options)  : base (options)
         {}
 

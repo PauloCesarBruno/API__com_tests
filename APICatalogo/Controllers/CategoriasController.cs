@@ -3,14 +3,16 @@ using APICatalogo.Models;
 using APICatalogo.Pagination;
 using APICatalogo.Repository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 //using APICatalogo.Services;  // Usado para o exemplo de Saudação no [FromServices].
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace APICatalogo.Controllers;
 
-[ApiController]
 [Route("api/[controller]")]
+[ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class CategoriasController : Controller
 {
     private readonly IUnitOfWork _context;
