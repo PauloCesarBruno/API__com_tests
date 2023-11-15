@@ -4,6 +4,7 @@ using APICatalogo.Filter;
 using APICatalogo.Logging;
 using APICatalogo.Repository;
 using APICatalogo.Services;
+using Asp.Versioning;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -92,6 +93,14 @@ builder.Services.AddAuthentication(
          IssuerSigningKey = new SymmetricSecurityKey(
              Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"]))
      });
+
+// Exemplo de versionamento no Browser:
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+});
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
