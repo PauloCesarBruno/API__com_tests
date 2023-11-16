@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -106,6 +107,35 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<ApiLoggingFilter>();
 
+builder.Services.AddSwaggerGen(option=>
+{
+    option.SwaggerDoc(
+        "apicatalogo",
+        new OpenApiInfo()
+        {
+             Title = "API Catalogo" ,
+             Version = "1.0" ,
+             TermsOfService = new Uri(" http://sistemahospitalar.gear.host/"),
+             Description = "Links Relevantes ao uso da APICatalogo, inclusive com envio de email.",
+            License = new Microsoft.OpenApi.Models.OpenApiLicense
+            {
+                Name = "Canal YouTube do Dev. ",
+                Url = new Uri("https://www.youtube.com/channel/UC-7rKFVKo4JNNifPBBEEoYw?view_as=subscriber")
+            },
+            Contact = new Microsoft.OpenApi.Models.OpenApiContact
+            {
+                Email = "p_bruno001@hotmail.com",
+                Name = "PAULO CESAR C. BRUNO.",
+                Url = new Uri("https://www.linkedin.com/in/paulo-cesar-cordovil-bruno/")
+            }
+        });
+
+    var xmlCommentsFile =$"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlcommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+    option.IncludeXmlComments(xmlcommentsFullPath);
+});
+
 builder.Logging.AddProvider(new CustomLoggerProvider (new CustomLoggerProviderConfiguration
 {
     LogLevel = LogLevel.Information
@@ -116,11 +146,14 @@ builder.Services.AddTransient<IMeuServico, MeuServico>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+    app.UseSwagger()
+    .UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/apicatalogo/swagger.json", "apicatalogo");
+        options.RoutePrefix = "";
+    });
+
 
 app.UseHttpsRedirection();
 

@@ -13,7 +13,7 @@ public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
 
     public async Task<PagedList<Categoria>> GetCategorias(CategoriasParameters categoriaParameters)
     {
-        return await PagedList<Categoria>.ToPagedList(Get().OrderBy(oc => oc.Nome),
+        return await PagedList<Categoria>.ToPagedList(Get().OrderBy(oc => oc.CategoriaId),
                            categoriaParameters.PageNumber,
                            categoriaParameters.PageSize);
     }

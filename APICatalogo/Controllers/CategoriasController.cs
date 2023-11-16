@@ -10,6 +10,9 @@ using Newtonsoft.Json;
 
 namespace APICatalogo.Controllers;
 
+/// <summary>
+/// 
+/// </summary>
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(AuthenticationSchemes = "Bearer")]
@@ -20,6 +23,12 @@ public class CategoriasController : Controller
     private readonly ILogger _logger;
     private readonly IMapper _mapper;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="logger"></param>
+    /// <param name="mapper"></param>
     public CategoriasController(IUnitOfWork context, /*IConfiguration configuration,*/
         ILogger<CategoriasController> logger, IMapper mapper)
     {
@@ -46,13 +55,19 @@ public class CategoriasController : Controller
     //    return meuServico.Saudacao(nome);
     //}
 
+    //========================================================================================================
+
+    /// <summary>
+    /// EndPoint para listar as categorias com os seus respectivos produtos por ordem do nome do produto.
+    /// </summary>
+    /// <param name="categoriaParameters"></param>
+    /// <returns></returns>
     [HttpGet("produtos")]
     public async Task<ActionResult<IList<CategoriaDTO>>>
     GetCategoriasProdutos([FromQuery] CategoriasParameters categoriaParameters)
     {
         var categorias = await _context.CategoriaRepository
                         .GetCategoriasProdutos(categoriaParameters);
-
 
         var metadata = new
         {
@@ -82,14 +97,19 @@ public class CategoriasController : Controller
     //    return categoriasDto;
     //}
 
+    //========================================================================================================
 
+    /// <summary>
+    /// Endpoint para listar todas as categorias por ordem do Id.
+    /// </summary>
+    /// <param name="categoriasParameters"></param>
+    /// <returns></returns>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CategoriaDTO>>>
             Get([FromQuery] CategoriasParameters categoriasParameters)
     {
         var categorias = await _context.CategoriaRepository.
                             GetCategorias(categoriasParameters);
-
         var metadata = new
         {
             categorias.TotalCount,
@@ -106,6 +126,11 @@ public class CategoriasController : Controller
         return categoriasDto;
     }
 
+    /// <summary>
+    /// EndPoint para listar uma categoria pelo seu ID.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}", Name = "ObterCategoria")]
     public async Task<ActionResult<CategoriaDTO>> Get(int id)
     {
@@ -126,6 +151,11 @@ public class CategoriasController : Controller
         return categoriaDTO;
     }
 
+    /// <summary>
+    /// EndPoint para add. uma nova categoria.
+    /// </summary>
+    /// <param name="categoriaDto"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] CategoriaDTO categoriaDto)
     {
@@ -140,6 +170,12 @@ public class CategoriasController : Controller
             new { id = categoria.CategoriaId }, categoriaDTO);
     }
 
+    /// <summary>
+    /// EndPoint para alterar uma categoria.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="categoriaDto"></param>
+    /// <returns></returns>
     [HttpPut("{id:int}")]
     public async Task<ActionResult> Put(int id, [FromBody] CategoriaDTO categoriaDto)
     {
@@ -156,6 +192,11 @@ public class CategoriasController : Controller
         return Ok();
     }
 
+    /// <summary>
+    /// Endpoint para deletar uma categoria.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<ActionResult<CategoriaDTO>> Delete(int id)
     {
@@ -173,5 +214,4 @@ public class CategoriasController : Controller
 
         return categoriaDto;
     }
-
 }

@@ -8,6 +8,9 @@ using System.Text;
 
 namespace APICatalogo.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[Controller]")]
     [ApiController]
     public class AutorizaController : ControllerBase
@@ -16,6 +19,12 @@ namespace APICatalogo.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="signInManager"></param>
+        /// <param name="configuration"></param>
         public AutorizaController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager, IConfiguration configuration)
         {
@@ -24,6 +33,10 @@ namespace APICatalogo.Controllers
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// EndPoint para visualização da data de acesso.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<string> Get()
         {
@@ -31,6 +44,11 @@ namespace APICatalogo.Controllers
                + DateTime.Now.ToLongDateString();
         }
 
+        /// <summary>
+        /// End Point para registra um novo usuário.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser([FromBody] UsuarioDTO model)
         {
@@ -57,6 +75,11 @@ namespace APICatalogo.Controllers
             return Ok(GeraToken(model));
         }
 
+        /// <summary>
+        /// Endpoint para efetuar Login e obter o Token.
+        /// </summary>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] UsuarioDTO userInfo)
         {
