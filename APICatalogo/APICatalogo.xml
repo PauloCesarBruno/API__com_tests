@@ -52,7 +52,7 @@
         </member>
         <member name="M:APICatalogo.Controllers.CategoriasController.GetCategoriasProdutos(APICatalogo.Pagination.CategoriasParameters)">
             <summary>
-            EndPoint para listar as categorias com os seus respectivos produtos por ordem do mome do produto.
+            EndPoint para listar as categorias com os seus respectivos produtos por ordem do nome do produto.
             </summary>
             <param name="categoriaParameters"></param>
             <returns></returns>
