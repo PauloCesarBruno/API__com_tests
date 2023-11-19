@@ -210,29 +210,21 @@ public class CategoriasUnitTestsController
         Assert.IsType<CreatedAtRouteResult>(data);
     }
 
-    /* Este método Put tera que Alterar uma categoria,
-     retornar um StatusCode 200, além de  ALTERAR epersistir o dado no Banco de dados*/
+    /* Este método Delete tera que Excluir uma categoria,
+     retornar o Objeto excluido, além de persistir o dado no Banco de dados*/
     [Fact] // Informa que é um código de teste unitário.  
-    public async void Put_Categoria_Update_ValidData_Return_OkResult()
+    public async void Deletet_Categoria_Return_OkResult()
     {
         //Arrange  
         var controller = new CategoriasMockController(repository, mapper);
-        var catId = 12;
+        var catId = 18;
        
         //Act
-        var existingPost = await controller.GetById(catId);
-        var result = existingPost.Value.Should().BeAssignableTo<CategoriaDTO>().Subject;
-
-        var catDto = new CategoriaDTO();
-        catDto.CategoriaId = catId;
-        catDto.Nome = "Categoria Atualizada - Testes 1000";
-        catDto.ImagemUrl = result.ImagemUrl;        
+        var data = await controller.Delete(catId);
         
-        var updateData = controller.Put(catId, catDto);
 
         //Assert  
         // Muita atenção para o "Assert", ele tem que seguir a lógica do teste desejado.
-        // O Retorno terá que ser um 200-Ok e alterar o registro especivicado no (var catId).
-        Assert.IsType<OkResult>(updateData);
+        Assert.IsType<CategoriaDTO>(data.Value);
     }
 }

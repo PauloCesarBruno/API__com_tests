@@ -172,7 +172,25 @@ public class CategoriasMockController : ControllerBase
 
         return Ok();
     }
-   
+
+    [HttpDelete("{id}")] /* Este método Delete tera que Excluir uma categoria,
+     retornar o Objeto excluido, além de persistir o dado no Banco de dados*/
+    public async Task<ActionResult<CategoriaDTO>> Delete(int id)
+    {
+        var categoria = await _context.CategoriaRepository
+                        .GetById(c => c.CategoriaId == id);
+
+        if (categoria == null)
+        {
+            return NotFound();
+        }
+        _context.CategoriaRepository.Delete(categoria);
+        await _context.Commit();
+
+        var categoriaDto = _mapper.Map<CategoriaDTO>(categoria);
+
+        return categoriaDto;
+    }
 }
 
 

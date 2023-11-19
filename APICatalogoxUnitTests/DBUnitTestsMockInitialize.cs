@@ -6,6 +6,8 @@ namespace APICatalogoxUnitTests;
 
 // Classe para inicializar Um outro banco de dados 
 // somente para os testes ou usar dadsos inmémory.
+// NÃO ESTOU FAZENDO ASIM, ESTOU USANDO MEU BANCO ORIGINAL PARA OS TESTES.
+//======================================================================================
 public class DBUnitTestsMockInitialize
 {
     public DBUnitTestsMockInitialize()
