@@ -32,13 +32,15 @@ namespace APICatalogo.Models
         public string ImagemUrl { get; set; }
        
         public float Estoque { get; set; }
-       
+
+        [Required(ErrorMessage = "Campo Obrigatório!")]        
         public DateTime DataCadastro { get; set; }
 
         // Refinamento de que Categoria poderá receber várioas produtos:
         // Propriedades de navegação  
         public int CategoriaId { get; set; }
         [JsonIgnore] // Ignora a obrigação de preenchimento no POST e PUT 
+        [Required(ErrorMessage = "Campo Obrigatório!")]
         public Categoria Categoria { get; set; }
 
         // Implementação após herança de "IValidatableObject" - é uma outra técnica

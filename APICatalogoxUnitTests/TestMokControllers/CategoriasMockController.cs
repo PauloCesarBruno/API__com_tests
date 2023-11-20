@@ -4,8 +4,6 @@ using APICatalogo.Pagination;
 using APICatalogo.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Data;
 
 namespace APICatalogo.TestMokControllers;
 
@@ -26,7 +24,7 @@ public class CategoriasMockController : ControllerBase
     // TESTES DE CONSULTAS
     // ===================================================================================================
      
-    [HttpGet] // Para teste de retorno de ima coleção de objetos
+    [HttpGet] // Para teste de retorno de uma coleção de objetos
     public async Task<ActionResult<IEnumerable<CategoriaDTO>>>
             Get([FromQuery] CategoriasParameters categoriasParameters)
     {
@@ -118,7 +116,7 @@ public class CategoriasMockController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "ObterCategoria")] /*Este método "Mock" serve paara testar 2 (duas)
-    situações, uma é se vai retornar um result de um Objeto pelo se Id e a outra situação é ver
+    situações, uma é se vai retornar um result de um Objeto pelo seu Id e a outra situação é ver
     se vai retornar um "NotFopud" se for passado um Id Inexistente.*/
     public async Task<ActionResult<CategoriaDTO>> GetById(int id)
     {

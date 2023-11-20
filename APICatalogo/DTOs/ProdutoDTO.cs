@@ -30,11 +30,12 @@ namespace APICatalogo.DTOs
         //[Required(ErrorMessage = "Campo Obrigatório!")]  --> ESTÁ COMENTADO PARA NÃO TRAZER NO DTO MESMO 
         //public float Estoque { get; set; }
 
-        //[Required(ErrorMessage = "Campo Obrigatório!")]  --> ESTÁ COMENTADO PARA NÃO TRAZER NO DTO MESMO 
+        //[Required(ErrorMessage = "Campo Obrigatório!")]  -->  ESTÁ COMENTADO PARA NÃO TRAZER NO DTO MESMO        
         //public DateTime DataCadastro { get; set; }
 
         // Refinamento de que Categoria poderá receber várioas produtos:
-        // Propriedades de navegação  
+        // Propriedades de navegação 
+        [Required(ErrorMessage = "Campo Obrigatório!")]
         public int CategoriaId { get; set; }
         
     }
