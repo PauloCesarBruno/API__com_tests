@@ -8,9 +8,9 @@ namespace APICatalogoxUnitTests;
 // somente para os testes ou usar dadsos inmémory.
 // NÃO ESTOU FAZENDO ASIM, ESTOU USANDO MEU BANCO ORIGINAL PARA OS TESTES.
 //======================================================================================
-public class DBUnitTestsMockInitialize
+public class VersaoDbUnitTestsMockInitialize
 {
-    public DBUnitTestsMockInitialize()
+    public VersaoDbUnitTestsMockInitialize()
     { }
 
     public void Seed(AppDbContext context)
