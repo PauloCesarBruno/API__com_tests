@@ -244,7 +244,7 @@ public class ProdutosUnitTestsController
     {
         //Arrange  
         var controller = new ProdutosMockController(repository, mapper);
-        var catId = 27;
+        var catId = 36;
 
         //Act
         var data = await controller.Delete(catId);
