@@ -215,7 +215,7 @@ public class ProdutosUnitTestsController
     {
         //Arrange  
         var controller = new ProdutosMockController(repository, mapper);
-        var prodId = 28;
+        var prodId = 36;
 
         //Act
         var existingPost = await controller.GetById(prodId);
@@ -244,7 +244,7 @@ public class ProdutosUnitTestsController
     {
         //Arrange  
         var controller = new ProdutosMockController(repository, mapper);
-        var catId = 28;
+        var catId = 27;
 
         //Act
         var data = await controller.Delete(catId);

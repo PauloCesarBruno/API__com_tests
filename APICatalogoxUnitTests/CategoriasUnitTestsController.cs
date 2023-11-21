@@ -210,7 +210,7 @@ public class CategoriasUnitTestsController
     {
         //Arrange  
         var controller = new CategoriasMockController(repository, mapper);
-        var catId = 28;
+        var catId = 34;
 
         //Act
         var existingPost = await controller.GetById(catId);
@@ -236,7 +236,7 @@ public class CategoriasUnitTestsController
     {
         //Arrange  
         var controller = new CategoriasMockController(repository, mapper);
-        var catId = 28;
+        var catId = 34;
 
         //Act
         var data = await controller.Delete(catId);
